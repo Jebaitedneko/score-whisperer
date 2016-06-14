@@ -19,6 +19,7 @@ import (
 	API "github.com/ren-/osu/api"
 )
 
+// APIConnection is used to communicate with osu! API
 var APIConnection API.Config
 var db *sqlx.DB
 
@@ -36,8 +37,10 @@ func main() {
 		fmt.Println("error creating Discord session,", err)
 		return
 	}
-	APIConnection.SetAPIKey(os.Getenv("OSU_TOKEN"))
-
+	err = APIConnection.SetAPIKey(os.Getenv("OSU_TOKEN"))
+	if err != nil {
+		fmt.Println(err)
+	}
 	db, err = sqlx.Connect("postgres", "host="+os.Getenv("DB_HOST")+" user="+os.Getenv("DB_USER")+" dbname="+os.Getenv("DB_DATABASE")+" sslmode=disable")
 	if err != nil {
 		log.Fatalln(err)
@@ -47,7 +50,11 @@ func main() {
 	dg.AddHandler(messageCreate)
 
 	// Open the websocket and begin listening.
-	dg.Open()
+	err = dg.Open()
+
+	if err != nil {
+		fmt.Println("Error in opening websocket for the bot, ", err)
+	}
 
 	fmt.Println("Bot is now running.  Press CTRL-C to exit.")
 
@@ -96,7 +103,7 @@ func getChannelsByName(s *discordgo.Session, channelName string) []string {
 }
 
 // This function will be called (due to AddHandler above) every time a new
-// message is created on any channel that the autenticated bot has access to.
+// message is created on any channel that the authenticated bot has access to.
 func messageCreate(s *discordgo.Session, m *discordgo.MessageCreate) {
 
 	log.Printf("[%5s]: %5s > %s\n", m.ChannelID, m.Author.Username, m.Content)
@@ -111,8 +118,14 @@ func messageCreate(s *discordgo.Session, m *discordgo.MessageCreate) {
 				"HeapAlloc:\t%.2fMB\n"+
 				"Total Sys:\t%.2fMB\n"+
 				"```*Written by* ***Ren*** *a.k.a.* ***claymore***",
-			runtime.NumGoroutine(), float64(mem.HeapAlloc)/1048576, float64(mem.Sys)/1048576)
-		s.ChannelMessageSend(m.ChannelID, results)
+			runtime.NumGoroutine(),
+			float64(mem.HeapAlloc)/1048576,
+			float64(mem.Sys)/1048576)
+
+		_, err := s.ChannelMessageSend(m.ChannelID, results)
+		if err != nil {
+			fmt.Printf("Error sending message to channel %s, %s", m.ChannelID, err)
+		}
 
 	}
 
