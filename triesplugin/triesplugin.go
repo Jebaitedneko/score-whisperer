@@ -34,7 +34,7 @@ func triesMessageFunc(bot *whisperer.Bot, service whisperer.Service, message whi
 			beatmap_id := strings.Trim(split[0], " ")
 			username := strings.Trim(split[1], " ")
 
-			db, err := sqlx.Connect("postgres", "host="+os.Getenv("DB_HOST")+" user="+os.Getenv("DB_USER")+" dbname="+os.Getenv("DB_DATABASE")+" sslmode=disable")
+			db, err := sqlx.Connect("postgres", "host="+os.Getenv("DB_HOST")+" user="+os.Getenv("DB_USER")+" dbname="+os.Getenv("DB_DATABASE")+" password="+os.Getenv("DB_PASSWORD")+" sslmode=disable")
 			if err != nil {
 				log.Fatalln(err)
 			}

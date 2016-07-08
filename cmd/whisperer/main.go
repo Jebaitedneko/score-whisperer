@@ -3,13 +3,11 @@ package main
 import (
 	"flag"
 	"fmt"
-	"log"
 	"math/rand"
 	"os"
 	"os/signal"
 	"time"
 
-	"github.com/joho/godotenv"
 	"github.com/ren-/score-whisperer"
 	"github.com/ren-/score-whisperer/inviteplugin"
 	"github.com/ren-/score-whisperer/playingplugin"
@@ -32,10 +30,7 @@ func init() {
 }
 
 func main() {
-	err := godotenv.Load()
-	if err != nil {
-		log.Fatal("Error loading .env file")
-	}
+
 	//https://discordapp.com/oauth2/authorize?client_id=189474870923362305&scope=bot&permissions=8
 	DiscordToken := os.Getenv("DG_TOKEN")
 	// Create a new Discord session using the provided login information.
