@@ -52,7 +52,7 @@ func StatsCommand(bot *whisperer.Bot, service whisperer.Service, message whisper
 	}
 	w.Flush()
 
-	out := buf.String() + "\nMade by claymore. :heart: to iopred."
+	out := buf.String() + "\nMade by claymore. :heart: to iopred. be padangos"
 
 	if service.SupportsMultiline() {
 		service.SendMessage(message.Channel(), out)
