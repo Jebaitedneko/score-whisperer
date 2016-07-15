@@ -62,11 +62,12 @@ func StatsCommand(bot *whisperer.Bot, service whisperer.Service, message whisper
 	fmt.Fprintf(w, "Concurrent tasks: \t%d\n", runtime.NumGoroutine())
 	if service.Name() == whisperer.DiscordServiceName {
 		fmt.Fprintf(w, "Connected servers: \t%d\n", service.ChannelCount())
+		fmt.Fprintf(w, "Total plays recorded: \t%d\n", count)
 		fmt.Fprintf(w, "\n```")
 	} else {
 		fmt.Fprintf(w, "Connected channels: \t%d\n", service.ChannelCount())
 	}
-	fmt.Fprintf(w, "Total plays recorded: \t%d\n", count)
+
 	w.Flush()
 
 	out := buf.String() + "\nMade by claymore. :heart: to iopred. be padangos"
