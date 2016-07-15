@@ -3,18 +3,13 @@ package triesplugin
 import (
 	"bytes"
 	"fmt"
-	"log"
-	"os"
 	"strconv"
 	"strings"
 	"text/tabwriter"
 
-	"github.com/jmoiron/sqlx"
 	"github.com/ren-/osu/api"
 	"github.com/ren-/score-whisperer"
 )
-
-var db *sqlx.DB
 
 func triesHelpFunc(bot *whisperer.Bot, service whisperer.Service, message whisperer.Message, detailed bool) []string {
 	return whisperer.CommandHelp(service, "tries", "<beatmap_id>, <username>", fmt.Sprintf("Get information about plays on specific beatmap during the last 24 hours"))
@@ -34,12 +29,7 @@ func triesMessageFunc(bot *whisperer.Bot, service whisperer.Service, message whi
 			beatmap_id := strings.Trim(split[0], " ")
 			username := strings.Trim(split[1], " ")
 
-			db, err := sqlx.Connect("postgres", "host="+os.Getenv("DB_HOST")+" user="+os.Getenv("DB_USER")+" dbname="+os.Getenv("DB_DATABASE")+" password="+os.Getenv("DB_PASSWORD")+" sslmode=disable")
-			if err != nil {
-				log.Fatalln(err)
-			}
-
-			stmt, err := db.Preparex("SELECT beatmap_id, score, max_combo, count50, count100, count300, count_miss, count_katu, count_geki, enabled_mods, user_id, date, rank, username FROM plays WHERE LOWER(username)=LOWER($1) AND beatmap_id=$2 AND date at time zone 'UTC+8' > current_timestamp - interval '24 hours' order by date asc")
+			stmt, err := DB.Preparex("SELECT beatmap_id, score, max_combo, count50, count100, count300, count_miss, count_katu, count_geki, enabled_mods, user_id, date, rank, username FROM plays WHERE LOWER(username)=LOWER($1) AND beatmap_id=$2 AND date at time zone 'UTC+8' > current_timestamp - interval '24 hours' order by date asc")
 			songs := []api.Song{}
 			err = stmt.Select(&songs, username, beatmap_id)
 			if err != nil {

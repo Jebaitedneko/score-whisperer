@@ -26,6 +26,14 @@ func getDurationString(duration time.Duration) string {
 
 // StatsCommand returns bot statistics.
 func StatsCommand(bot *whisperer.Bot, service whisperer.Service, message whisperer.Message, command string, parts []string) {
+	row := db.QueryRow("SELECT count(id) FROM plays")
+	var count int
+	err = row.Scan(&count)
+
+	if err != nil {
+		fmt.Print(err)
+	}
+
 	stats := runtime.MemStats{}
 	runtime.ReadMemStats(&stats)
 
@@ -50,6 +58,7 @@ func StatsCommand(bot *whisperer.Bot, service whisperer.Service, message whisper
 	} else {
 		fmt.Fprintf(w, "Connected channels: \t%d\n", service.ChannelCount())
 	}
+	fmt.Fprintf(w, "Total plays recorded: \t%d\n", count)
 	w.Flush()
 
 	out := buf.String() + "\nMade by claymore. :heart: to iopred. be padangos"

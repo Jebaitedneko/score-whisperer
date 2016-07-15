@@ -3,11 +3,13 @@ package main
 import (
 	"flag"
 	"fmt"
+	"log"
 	"math/rand"
 	"os"
 	"os/signal"
 	"time"
 
+	"github.com/jmoiron/sqlx"
 	"github.com/ren-/score-whisperer"
 	"github.com/ren-/score-whisperer/inviteplugin"
 	"github.com/ren-/score-whisperer/playingplugin"
@@ -18,6 +20,9 @@ import (
 var discordApplicationClientID string
 var discordOwnerUserID string
 
+// DB is used for global postgres access
+var DB *sqlx.DB
+
 func init() {
 	flag.StringVar(&discordOwnerUserID, "discordowneruserid", "", "Discord owner user id.")
 	flag.StringVar(&discordApplicationClientID, "discordapplicationclientid", "", "Discord application client id.")
@@ -27,6 +32,11 @@ func init() {
 	flag.Parse()
 
 	rand.Seed(time.Now().UnixNano())
+
+	DB, err := sqlx.Connect("postgres", "host="+os.Getenv("DB_HOST")+" user="+os.Getenv("DB_USER")+" dbname="+os.Getenv("DB_DATABASE")+" password="+os.Getenv("DB_PASSWORD")+" sslmode=disable")
+	if err != nil {
+		log.Fatalln(err)
+	}
 }
 
 func main() {
