@@ -3,6 +3,8 @@ package statsplugin
 import (
 	"bytes"
 	"fmt"
+	"log"
+	"os"
 	"runtime"
 	"strings"
 	"text/tabwriter"
@@ -10,6 +12,7 @@ import (
 
 	"github.com/bwmarrin/discordgo"
 	humanize "github.com/dustin/go-humanize"
+	"github.com/jmoiron/sqlx"
 	"github.com/ren-/score-whisperer"
 )
 
@@ -26,6 +29,11 @@ func getDurationString(duration time.Duration) string {
 
 // StatsCommand returns bot statistics.
 func StatsCommand(bot *whisperer.Bot, service whisperer.Service, message whisperer.Message, command string, parts []string) {
+	db, err := sqlx.Connect("postgres", "host="+os.Getenv("DB_HOST")+" user="+os.Getenv("DB_USER")+" dbname="+os.Getenv("DB_DATABASE")+" password="+os.Getenv("DB_PASSWORD")+" sslmode=disable")
+	if err != nil {
+		log.Fatalln(err)
+	}
+
 	row := db.QueryRow("SELECT count(id) FROM plays")
 	var count int
 	err = row.Scan(&count)
