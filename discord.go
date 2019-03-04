@@ -6,7 +6,7 @@ import (
 	"log"
 	"regexp"
 
-	"github.com/bwmarrin/discordgo"
+	"github.com/jonas747/discordgo"
 )
 
 // DiscordServiceName is the service name for the Discord service.
