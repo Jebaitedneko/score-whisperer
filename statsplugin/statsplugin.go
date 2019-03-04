@@ -10,7 +10,7 @@ import (
 	"text/tabwriter"
 	"time"
 
-	"github.com/bwmarrin/discordgo"
+	"github.com/jonas747/discordgo"
 	humanize "github.com/dustin/go-humanize"
 	"github.com/jmoiron/sqlx"
 	"github.com/ren-/score-whisperer"
