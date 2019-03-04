@@ -4,7 +4,7 @@ ADD . /go/src/github.com/ren-/score-whisperer
 
 RUN go get github.com/bwmarrin/discordgo
 WORKDIR /go/src/github.com/bwmarrin/discordgo
-RUN git checkout develop
+RUN git checkout master
 
 
 WORKDIR /go/src/github.com/ren-/score-whisperer
