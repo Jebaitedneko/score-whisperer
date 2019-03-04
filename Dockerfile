@@ -13,6 +13,6 @@ RUN go get ./...
 WORKDIR /go/src/github.com/ren-/score-whisperer/cmd/whisperer
 RUN go install
 
-ENTRYPOINT ["/go/bin/whisperer", "--discordowneruserid", "137214686973132800",  "--discordapplicationclientid", "189474870923362305"]
+ENTRYPOINT ["/go/bin/whisperer", "--discordowneruserid", "110076057167618048",  "--discordapplicationclientid", "254494841201754112"]
 
 
