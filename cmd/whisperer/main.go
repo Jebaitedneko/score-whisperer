@@ -10,7 +10,7 @@ import (
 
 	"github.com/ren-/score-whisperer"
 	"github.com/ren-/score-whisperer/inviteplugin"
-	"github.com/ren-/score-whisperer/playingplugin"
+	//"github.com/ren-/score-whisperer/playingplugin"
 	"github.com/ren-/score-whisperer/statsplugin"
 	"github.com/ren-/score-whisperer/triesplugin"
 )
