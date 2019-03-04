@@ -15,8 +15,8 @@ import (
 	"github.com/ren-/score-whisperer/triesplugin"
 )
 
-var discordApplicationClientID = os.Getenv("CLIENT_ID")
-var discordOwnerUserID = os.Getenv("USER_ID")
+var discordApplicationClientID string //os.Getenv("CLIENT_ID")
+var discordOwnerUserID string //os.Getenv("USER_ID")
 
 func init() {
 	flag.StringVar(&discordOwnerUserID, "discordowneruserid", "", "Discord owner user id.")
