@@ -55,7 +55,7 @@ func main() {
 
 		bot.RegisterService(discord)
 		bot.RegisterPlugin(discord, cp)
-		bot.RegisterPlugin(discord, playingplugin.New())
+		//bot.RegisterPlugin(discord, playingplugin.New())
 		bot.RegisterPlugin(discord, triesplugin.New())
 
 	}
