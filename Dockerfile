@@ -1,4 +1,4 @@
-FROM golang:1.7
+FROM golang:1.6.4
 
 ADD . /go/src/github.com/ren-/score-whisperer
 
